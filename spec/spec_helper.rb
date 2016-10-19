@@ -19,7 +19,7 @@ def fixture(file)
   File.read("spec/fixtures/#{file}")
 end
 
-def pmd_fixture(file, parsing = true)
+def pmd_fixture(file, _parsing = true)
   content = fixture("#{file}.pmd")
 
   content

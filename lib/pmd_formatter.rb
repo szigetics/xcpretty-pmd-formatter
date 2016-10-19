@@ -105,7 +105,7 @@ class PMDFormatter < XCPretty::Simple
       compile_errors: @compile_errors,
       file_missing_errors: @file_missing_errors,
       undefined_symbols_errors: @undefined_symbols_errors,
-      duplicate_symbols_errors: @duplicate_symbols_errors,
+      duplicate_symbols_errors: @duplicate_symbols_errors
     }
   end
 
