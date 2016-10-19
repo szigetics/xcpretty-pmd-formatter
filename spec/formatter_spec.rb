@@ -1,6 +1,7 @@
 require 'spec_helper'
 require 'fileutils'
 require 'xml'
+require 'tmpdir'
 
 describe 'PMDFormatter' do
   it 'formats xcodebuild' do
