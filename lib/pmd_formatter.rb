@@ -130,35 +130,51 @@ class PMDFormatter < XCPretty::Simple
       file_node = XML::Node.new('file')
       violation = XML::Node.new('violation')
       array.each do |x|
-        x.each do |key, value|
-          if key.to_s == 'file_path'
-            file_node = XML::Node.new('file')
-            file_node['name'] = value.split(':')[0]
-            violation = XML::Node.new('violation')
-            violation['begincolumn'] = value.split(':')[2]
-            violation['endcolumn'] = '0'
-            violation['beginline'] = value.split(':')[1]
-            violation['endline'] = '0'
+        if x.kind_of?(Hash)
+          x.each do |key, value|
+            if key.to_s == 'file_path'
+              file_node = XML::Node.new('file')
+              file_node['name'] = value.split(':')[0]
+              violation = XML::Node.new('violation')
+              violation['begincolumn'] = value.split(':')[2]
+              violation['endcolumn'] = '0'
+              violation['beginline'] = value.split(':')[1]
+              violation['endline'] = '0'
+            end
+            if key1.to_s == 'compile_errors'
+              violation['priority'] = '1'
+            else
+              violation['priority'] = '2'
+            end
+            violation['rule'] = 'clang static analyzer'
+            violation['ruleset'] = 'clang static analyzer'
+            if key.to_s == 'reason'
+              violation.content = value
+            end
+            has_everything = !violation.parent && violation['begincolumn']
+            has_everything &&= violation['endcolumn']
+            has_everything &&= violation['beginline'] && violation['endline'] && violation.content
+            if has_everything
+              file_node << violation
+            end
+            if file_node['name']
+              doc.root << file_node
+            end
           end
-          if key1.to_s == "compile_errors"
-            violation['priority'] = '1'
-          else
-            violation['priority'] = '2'
-          end
+        elsif x.kind_of?(String)
+          file_node = XML::Node.new('file')
+          file_node['name'] = ''
+          violation = XML::Node.new('violation')
+          violation['begincolumn'] = '0'
+          violation['endcolumn'] = '0'
+          violation['beginline'] = '0'
+          violation['endline'] = '0'
+          violation['priority'] = '2'
           violation['rule'] = 'clang static analyzer'
           violation['ruleset'] = 'clang static analyzer'
-          if key.to_s == 'reason'
-            violation.content = value
-          end
-          has_everything = !violation.parent && violation['begincolumn']
-          has_everything &&= violation['endcolumn']
-          has_everything &&= violation['beginline'] && violation['endline'] && violation.content
-          if has_everything
-            file_node << violation
-          end
-          if file_node['name']
-            doc.root << file_node
-          end
+          violation.content = x
+          file_node << violation
+          doc.root << file_node
         end
       end
     end

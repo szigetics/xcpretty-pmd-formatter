@@ -7,9 +7,8 @@ describe 'PMDFormatter' do
   it 'formats xcodebuild' do
     verify_file('xcodebuild')
   end
-  
   it 'formats xcodebuild_with_errors_and_warnings' do
-      verify_file('xcodebuild_with_errors_and_warnings')
+    verify_file('xcodebuild_with_errors_and_warnings')
   end
 
   def verify_file(file)
