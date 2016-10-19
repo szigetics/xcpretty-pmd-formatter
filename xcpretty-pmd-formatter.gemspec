@@ -2,7 +2,7 @@
 
 Gem::Specification.new do |spec|
   spec.name          = 'xcpretty-pmd-formatter'
-  spec.version       = '0.0.1'
+  spec.version       = '0.0.3'
   spec.authors       = ['Csaba Szigeti']
   spec.email         = ['szigetics@gmail.com']
 

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pmd version="xcpretty-pmd-formatter">
+  <file name="/Users/csszigeti/xcodeteststest1/XcodeTestsTest1/AppDelegate.m">
+    <violation begincolumn="5" endcolumn="0" beginline="30" endline="0" priority="2" rule="clang static analyzer" ruleset="clang static analyzer">code will never be executed [-Wunreachable-code]</violation>
+  </file>
+  <file name="/Users/csszigeti/xcodeteststest1/XcodeTestsTest1/AppDelegate.m">
+    <violation begincolumn="5" endcolumn="0" beginline="30" endline="0" priority="2" rule="clang static analyzer" ruleset="clang static analyzer">code will never be executed [-Wunreachable-code]</violation>
+  </file>
+  <file name="/Users/csszigeti/xcodeteststest1/XcodeTestsTest1/AppDelegate.m">
+    <violation begincolumn="23" endcolumn="0" beginline="20" endline="0" priority="2" rule="clang static analyzer" ruleset="clang static analyzer">Potential leak of an object stored into 'str'</violation>
+  </file>
+  <file name="/Users/csszigeti/xcodeteststest1/XcodeTestsTest1/ViewController.m">
+    <violation begincolumn="5" endcolumn="0" beginline="21" endline="0" priority="1" rule="clang static analyzer" ruleset="clang static analyzer">use of undeclared identifier 'aaa'</violation>
+  </file>
+  <file name="/Users/csszigeti/xcodeteststest1/XcodeTestsTest1/ViewController.m">
+    <violation begincolumn="5" endcolumn="0" beginline="21" endline="0" priority="1" rule="clang static analyzer" ruleset="clang static analyzer">use of undeclared identifier 'aaa'</violation>
+  </file>
+  <file name="/Users/csszigeti/xcodeteststest1/XcodeTestsTest1/ViewController.m">
+    <violation begincolumn="5" endcolumn="0" beginline="21" endline="0" priority="1" rule="clang static analyzer" ruleset="clang static analyzer">use of undeclared identifier 'aaa'</violation>
+  </file>
+</pmd>

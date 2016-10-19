@@ -140,7 +140,11 @@ class PMDFormatter < XCPretty::Simple
             violation['beginline'] = value.split(':')[1]
             violation['endline'] = '0'
           end
-          violation['priority'] = '1'
+          if key1.to_s == "compile_errors"
+            violation['priority'] = '1'
+          else
+            violation['priority'] = '2'
+          end
           violation['rule'] = 'clang static analyzer'
           violation['ruleset'] = 'clang static analyzer'
           if key.to_s == 'reason'
