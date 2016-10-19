@@ -14,7 +14,7 @@ describe 'PMDFormatter' do
       FileUtils.cp("spec/fixtures/#{file}.log", dir)
       Dir.chdir(dir) do
         %x(cat #{file}.log | XCPRETTY_PMD_FILE_OUTPUT=result.pmd bundle exec xcpretty -f `xcpretty-pmd-formatter`)
-        output = XML::Document.file('result.pmd')
+        output = XML::Document.file('result.pmd').to_s
       end
     end
 

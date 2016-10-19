@@ -21,7 +21,6 @@ end
 
 def pmd_fixture(file, parsing = true)
   content = fixture("#{file}.pmd")
-  content = XML::Reader.string(content).read
 
   content
 end
