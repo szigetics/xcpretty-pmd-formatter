@@ -118,10 +118,43 @@ class PMDFormatter < XCPretty::Simple
     dirname = File.dirname(file_name)
     FileUtils.mkdir_p dirname
 
-    doc = XML::Document.new()
-    doc.root = XML::Node.new('root_node')
-    doc.root << XML::Node.new('elem1')
-    doc.save(file_name, :indent => true, :encoding => XML::Encoding::UTF_8)
+    doc = XML::Document.new
+    rootnode = XML::Node.new('pmd')
+    rootnode['version'] = 'xcpretty-pmd-formatter'
+    doc.root = rootnode
+    
+    fileNode1 = XML::Node.new('file')
+    fileNode1['name'] = 'AppDelegate.m'
+    violation1 = XML::Node.new('violation')
+    violation1['begincolumn'] = '5'
+    violation1['endcolumn'] = '0'
+    violation1['beginline'] = '28'
+    violation1['endline'] = '0'
+    violation1['priority'] = '1'
+    violation1['rule'] = 'clang static analyzer'
+    violation1['ruleset'] = 'clang static analyzer'
+    violation1.content = 'code will never be executed [-Wunreachable-code]'
+    fileNode1 << violation1
+    doc.root << fileNode1
+    
+    fileNode2 = XML::Node.new('file')
+    fileNode2['name'] = 'BGE/AppDelegate.m'
+    violation2 = XML::Node.new('violation')
+    violation2['begincolumn'] = '23'
+    violation2['endcolumn'] = '0'
+    violation2['beginline'] = '20'
+    violation2['endline'] = '0'
+    violation2['priority'] = '1'
+    violation2['rule'] = 'clang static analyzer'
+    violation2['ruleset'] = 'clang static analyzer'
+    violation2.content = "Potential leak of an object stored into 'key'"
+    fileNode2 << violation2
+    doc.root << fileNode2
+    
+    docAsStr = doc.to_s
+    # result = docAsStr.gsub(/xml/, 'pmd')
+    # doc.save(file_name, :indent => true, :encoding => XML::Encoding::UTF_8)
+    File.write(file_name, docAsStr)
   end
 end
 
