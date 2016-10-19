@@ -122,39 +122,45 @@ class PMDFormatter < XCPretty::Simple
     rootnode = XML::Node.new('pmd')
     rootnode['version'] = 'xcpretty-pmd-formatter'
     doc.root = rootnode
-    
-    fileNode1 = XML::Node.new('file')
-    fileNode1['name'] = 'AppDelegate.m'
-    violation1 = XML::Node.new('violation')
-    violation1['begincolumn'] = '5'
-    violation1['endcolumn'] = '0'
-    violation1['beginline'] = '28'
-    violation1['endline'] = '0'
-    violation1['priority'] = '1'
-    violation1['rule'] = 'clang static analyzer'
-    violation1['ruleset'] = 'clang static analyzer'
-    violation1.content = 'code will never be executed [-Wunreachable-code]'
-    fileNode1 << violation1
-    doc.root << fileNode1
-    
-    fileNode2 = XML::Node.new('file')
-    fileNode2['name'] = 'BGE/AppDelegate.m'
-    violation2 = XML::Node.new('violation')
-    violation2['begincolumn'] = '23'
-    violation2['endcolumn'] = '0'
-    violation2['beginline'] = '20'
-    violation2['endline'] = '0'
-    violation2['priority'] = '1'
-    violation2['rule'] = 'clang static analyzer'
-    violation2['ruleset'] = 'clang static analyzer'
-    violation2.content = "Potential leak of an object stored into 'key'"
-    fileNode2 << violation2
-    doc.root << fileNode2
-    
-    docAsStr = doc.to_s
-    # result = docAsStr.gsub(/xml/, 'pmd')
-    # doc.save(file_name, :indent => true, :encoding => XML::Encoding::UTF_8)
-    File.write(file_name, docAsStr)
+
+    pmd_output.each do |key1, array|
+      unless array.count
+        next
+      end
+      file_node = XML::Node.new('file')
+      violation = XML::Node.new('violation')
+      array.each do |x|
+        x.each do |key, value|
+          if key.to_s == 'file_path'
+            file_node = XML::Node.new('file')
+            file_node['name'] = value.split(':')[0]
+            violation = XML::Node.new('violation')
+            violation['begincolumn'] = value.split(':')[2]
+            violation['endcolumn'] = '0'
+            violation['beginline'] = value.split(':')[1]
+            violation['endline'] = '0'
+          end
+          violation['priority'] = '1'
+          violation['rule'] = 'clang static analyzer'
+          violation['ruleset'] = 'clang static analyzer'
+          if key.to_s == 'reason'
+            violation.content = value
+          end
+          has_everything = !violation.parent && violation['begincolumn']
+          has_everything &&= violation['endcolumn']
+          has_everything &&= violation['beginline'] && violation['endline'] && violation.content
+          if has_everything
+            file_node << violation
+          end
+          if file_node['name']
+            doc.root << file_node
+          end
+        end
+      end
+    end
+    doc_as_str = doc.to_s
+    # puts doc_as_str
+    File.write(file_name, doc_as_str)
   end
 end
 
