@@ -17,7 +17,7 @@ By applying this solution the number of code inspection issues won't get higher.
 This is the official tool which comes with Xcode and available on it's UI as well.
 It can run from the command line as well using the "xcodebuild analyze ..." command .
 Unfortunately it can generate only HTML and PLIST outputs and Teamcity does not have any plugins for processing these outputs.
-Fortunately we have XCPretty to save us. Still : Xcpretty does not have any analyzer reporter built-in. Fortunately it is extensible using the "–formatter ``formatter name or path``" command line attribute and the Ruby language : 
+Fortunately we have XCPretty to save us. Still : Xcpretty does not have any analyzer reporter built-in. Fortunately it is extensible using the "–formatter \`formatter name or path\`" command line attribute and the Ruby language : 
 
 Ref.: [xcpretty](https://github.com/supermarin/xcpretty)
 > Extensions
