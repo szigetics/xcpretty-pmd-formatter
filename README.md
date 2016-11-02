@@ -26,11 +26,14 @@ Ref.: [xcpretty](https://github.com/supermarin/xcpretty)
 So I decided to write a formatter which generates PMD output (like OCLint does for example). (PMD is a really simple XML format for Code Inspection results.)
 
 So the steps for generating a pmd file which contains the static analyzer issues and warnings for a given Xcode project are these : 
-```BUILD_CONFIG_NAME_CAPITAL="Debug" ##See more details about it here on this page later
+
+```
+BUILD_CONFIG_NAME_CAPITAL="Debug" ##See more details about it here on this page later
 SIMULATOR_TARGET_DESTINATION=$("$XCODEPATH/usr/bin/xcodebuild" -project "$TEAMCITY_BUILD_CHECKOUTDIR/$SCHEME.xcodeproj" -scheme $SCHEME -configuration "$BUILD_CONFIG_NAME_CAPITAL" -derivedDataPath "$JM_DERIVED_DATA_DIR_DEVICE" PUMPKIN_HOME="$PUMPKIN_HOME" build -destination 'platform=iOS Simulator' 2>&1 >/dev/null | grep id: | head -n 1 | awk '{print $4}' | tr ":" "=" | tr -d ",")
 
 $XCODEPATH/usr/bin/xcodebuild clean analyze -destination "$SIMULATOR_TARGET_DESTINATION" -project "$TEAMCITY_BUILD_CHECKOUTDIR/$SCHEME.xcodeproj" -scheme $SCHEME -configuration "$BUILD_CONFIG_NAME_CAPITAL" -derivedDataPath "$JM_DERIVED_DATA_DIR_DEVICE" ONLY_ACTIVE_ARCH=YES 2>&1 | tee "$LOG_FILE_CODE_INSPECTION_XCODEBUILD_ANALYZE" | XCPRETTY_PMD_FILE_OUTPUT=xcodebuildAnalyzeReport/xcodebuild_analyze_result.pmd xcpretty --formatter `xcpretty-pmd-formatter`
 ```
+
 Example XCODEPATH value : "/xcode_8/Xcode.app/Contents/Developer"
 
 This generates a PMD file which contains all the Code Inspection results (static analyzer issues + compilations warnings + linker warnings) under "xcodebuildAnalyzeReport/xcodebuild_analyze_result.pmd".
